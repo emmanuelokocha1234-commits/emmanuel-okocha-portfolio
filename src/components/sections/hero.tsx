@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type ReactNode } from "react";
 import { useReducedMotion, motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { ArrowRight, Download, Mail, Sparkles } from "lucide-react";
@@ -21,10 +21,49 @@ const ParticlesBackground = dynamic(
   { ssr: false }
 );
 
-const floatLoop = (delay = 0) => ({
-  y: [0, -12, 0],
-  transition: { duration: 5, repeat: Infinity, ease: "easeInOut" as const, delay },
-});
+// Two motion layers on purpose: the outer one runs a single entrance
+// fade/scale, the inner one runs the infinite float loop. Merging both into
+// one `animate` call made framer-motion apply the loop's `repeat: Infinity`
+// transition to every property in that call — including opacity — so the
+// whole card pulsed invisible on every cycle instead of just floating.
+function FloatingCard({
+  className,
+  entranceDelay,
+  floatDelay,
+  children,
+}: {
+  className: string;
+  entranceDelay: number;
+  floatDelay: number;
+  children: ReactNode;
+}) {
+  const prefersReducedMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6, delay: entranceDelay }}
+      className={className}
+    >
+      <motion.div
+        animate={prefersReducedMotion ? undefined : { y: [0, -12, 0] }}
+        transition={
+          prefersReducedMotion
+            ? undefined
+            : {
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: floatDelay,
+              }
+        }
+      >
+        {children}
+      </motion.div>
+    </motion.div>
+  );
+}
 
 export function Hero() {
   const prefersReducedMotion = useReducedMotion();
@@ -137,34 +176,26 @@ export function Hero() {
         <div className="relative mx-auto hidden h-[26rem] w-full max-w-md lg:block">
           <div className="absolute inset-0 -z-10 rounded-full bg-gradient-to-br from-emerald-500/10 via-cyan-500/10 to-purple-500/10 blur-3xl" />
 
-          <motion.div
-            initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.9 }}
-            animate={
-              prefersReducedMotion
-                ? { opacity: 1, scale: 1 }
-                : { opacity: 1, scale: 1, ...floatLoop(0) }
-            }
-            transition={{ duration: 0.6 }}
+          <FloatingCard
             className="glass-card absolute top-4 left-8 flex w-56 items-center gap-3 p-4"
+            entranceDelay={0}
+            floatDelay={0}
           >
-            <ProfilePhoto alt={profile.name} className="size-14 shrink-0" priority />
-            <div>
-              <p className="text-sm font-semibold">{profile.firstName}</p>
-              <p className="text-xs text-muted-foreground">
-                {profile.titles[0]}
-              </p>
+            <div className="flex items-center gap-3">
+              <ProfilePhoto alt={profile.name} className="size-14 shrink-0" priority />
+              <div>
+                <p className="text-sm font-semibold">{profile.firstName}</p>
+                <p className="text-xs text-muted-foreground">
+                  {profile.titles[0]}
+                </p>
+              </div>
             </div>
-          </motion.div>
+          </FloatingCard>
 
-          <motion.div
-            initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.9 }}
-            animate={
-              prefersReducedMotion
-                ? { opacity: 1, scale: 1 }
-                : { opacity: 1, scale: 1, ...floatLoop(1) }
-            }
-            transition={{ duration: 0.6, delay: 0.15 }}
+          <FloatingCard
             className="glass-card absolute top-44 right-0 w-44 p-4"
+            entranceDelay={0.15}
+            floatDelay={1}
           >
             <p className="gradient-text-emerald text-2xl font-bold">
               <AnimatedCounter value={projects.length} suffix="+" />
@@ -172,17 +203,12 @@ export function Hero() {
             <p className="mt-1 text-xs text-muted-foreground">
               Projects Shipped
             </p>
-          </motion.div>
+          </FloatingCard>
 
-          <motion.div
-            initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.9 }}
-            animate={
-              prefersReducedMotion
-                ? { opacity: 1, scale: 1 }
-                : { opacity: 1, scale: 1, ...floatLoop(0.6) }
-            }
-            transition={{ duration: 0.6, delay: 0.3 }}
+          <FloatingCard
             className="glass-card absolute bottom-6 left-16 w-48 p-4"
+            entranceDelay={0.3}
+            floatDelay={0.6}
           >
             <p className="gradient-text-purple text-2xl font-bold">
               <AnimatedCounter value={skillGroups.length} suffix="+" />
@@ -190,20 +216,15 @@ export function Hero() {
             <p className="mt-1 text-xs text-muted-foreground">
               Tech Categories
             </p>
-          </motion.div>
+          </FloatingCard>
 
-          <motion.div
-            initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.9 }}
-            animate={
-              prefersReducedMotion
-                ? { opacity: 1, scale: 1 }
-                : { opacity: 1, scale: 1, ...floatLoop(1.4) }
-            }
-            transition={{ duration: 0.6, delay: 0.45 }}
+          <FloatingCard
             className="glass-card absolute right-6 bottom-24 flex size-16 items-center justify-center"
+            entranceDelay={0.45}
+            floatDelay={1.4}
           >
             <Sparkles className="size-6 text-cyan-400" />
-          </motion.div>
+          </FloatingCard>
         </div>
       </div>
     </section>

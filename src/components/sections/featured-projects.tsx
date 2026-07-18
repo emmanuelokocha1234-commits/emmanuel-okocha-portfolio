@@ -16,7 +16,7 @@ export async function FeaturedProjects() {
     >
       <ScrollReveal>
         <div className="mb-14 text-center">
-          <p className="text-sm font-medium text-indigo-400">Featured Projects</p>
+          <p className="text-sm font-medium text-emerald-400">Featured Projects</p>
           <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
             Things I&apos;ve built
           </h2>

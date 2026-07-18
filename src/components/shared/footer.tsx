@@ -5,7 +5,8 @@ import { profile } from "@/lib/data/profile";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/60">
+    <footer className="relative border-t border-border/60">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-emerald-500/40 via-cyan-500/40 to-purple-500/40" />
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-10 text-sm text-muted-foreground sm:flex-row sm:justify-between sm:px-6 lg:px-8">
         <p>
           &copy; {new Date().getFullYear()} {profile.name}. Built with
@@ -17,14 +18,14 @@ export function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
-            className="transition-colors hover:text-foreground"
+            className="transition-colors hover:text-emerald-400"
           >
             <GithubIcon className="size-4" />
           </Link>
           <Link
             href={`mailto:${profile.email}`}
             aria-label="Email"
-            className="transition-colors hover:text-foreground"
+            className="transition-colors hover:text-emerald-400"
           >
             <Mail className="size-4" />
           </Link>

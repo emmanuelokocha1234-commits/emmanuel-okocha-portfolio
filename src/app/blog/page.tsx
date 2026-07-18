@@ -12,7 +12,7 @@ export default function BlogPage() {
     <div className="mx-auto flex min-h-[60vh] max-w-3xl flex-col items-center justify-center px-4 py-24 text-center sm:px-6 lg:px-8">
       <ScrollReveal>
         <div className="glass-card mx-auto flex size-16 items-center justify-center rounded-2xl">
-          <PenLine className="size-7 text-indigo-400" />
+          <PenLine className="size-7 text-emerald-400" />
         </div>
         <h1 className="mt-6 text-3xl font-bold tracking-tight sm:text-4xl">
           Writing soon

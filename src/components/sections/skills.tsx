@@ -9,7 +9,7 @@ export function Skills() {
     >
       <ScrollReveal>
         <div className="mb-14 text-center">
-          <p className="text-sm font-medium text-indigo-400">Skills</p>
+          <p className="text-sm font-medium text-cyan-400">Skills</p>
           <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
             What I work with
           </h2>
@@ -20,14 +20,14 @@ export function Skills() {
         {skillGroups.map((group, i) => (
           <ScrollReveal key={group.category} delay={i * 0.05}>
             <div className="glass-card h-full p-6">
-              <h3 className="mb-4 text-sm font-semibold tracking-wide text-indigo-400 uppercase">
+              <h3 className="mb-4 text-sm font-semibold tracking-wide text-cyan-400 uppercase">
                 {group.category}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {group.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="rounded-full border border-border/60 bg-background/40 px-3 py-1.5 text-sm transition-colors hover:border-indigo-400/50 hover:text-indigo-300"
+                    className="rounded-full border border-border/60 bg-background/40 px-3 py-1.5 text-sm transition-colors hover:border-cyan-400/50 hover:text-cyan-300"
                   >
                     {skill}
                   </span>

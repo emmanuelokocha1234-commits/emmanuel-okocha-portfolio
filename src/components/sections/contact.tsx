@@ -7,10 +7,8 @@ import { z } from "zod";
 import { Loader2, Mail, Phone, Send } from "lucide-react";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { GithubIcon } from "@/components/shared/github-icon";
+import { FloatingInput, FloatingTextarea } from "@/components/shared/floating-field";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { profile } from "@/lib/data/profile";
 
 const contactSchema = z.object({
@@ -63,7 +61,7 @@ export function Contact() {
     <section id="contact" className="mx-auto max-w-4xl px-4 py-24 sm:px-6 lg:px-8">
       <ScrollReveal>
         <div className="mb-14 text-center">
-          <p className="text-sm font-medium text-indigo-400">Contact</p>
+          <p className="text-sm font-medium text-purple-400">Contact</p>
           <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
             Let&apos;s work together
           </h2>
@@ -79,65 +77,73 @@ export function Contact() {
           <div className="space-y-4">
             <a
               href={`mailto:${profile.email}`}
-              className="flex items-center gap-3 rounded-xl border border-border/60 p-3 text-sm transition-colors hover:border-indigo-400/50"
+              className="flex items-center gap-3 rounded-2xl border border-border/60 p-3 text-sm transition-colors hover:border-purple-400/50"
             >
-              <Mail className="size-4 text-indigo-400" />
+              <Mail className="size-4 text-purple-400" />
               {profile.email}
             </a>
             <a
               href={`tel:${profile.phone.replace(/\s/g, "")}`}
-              className="flex items-center gap-3 rounded-xl border border-border/60 p-3 text-sm transition-colors hover:border-indigo-400/50"
+              className="flex items-center gap-3 rounded-2xl border border-border/60 p-3 text-sm transition-colors hover:border-purple-400/50"
             >
-              <Phone className="size-4 text-indigo-400" />
+              <Phone className="size-4 text-purple-400" />
               {profile.phone}
             </a>
             <a
               href={profile.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 rounded-xl border border-border/60 p-3 text-sm transition-colors hover:border-indigo-400/50"
+              className="flex items-center gap-3 rounded-2xl border border-border/60 p-3 text-sm transition-colors hover:border-purple-400/50"
             >
-              <GithubIcon className="size-4 text-indigo-400" />
+              <GithubIcon className="size-4 text-purple-400" />
               GitHub
             </a>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div className="space-y-1.5">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" {...register("name")} placeholder="Your name" />
+            <div>
+              <FloatingInput
+                id="name"
+                label="Name"
+                aria-invalid={!!errors.name}
+                {...register("name")}
+              />
               {errors.name && (
-                <p className="text-xs text-destructive">{errors.name.message}</p>
+                <p className="mt-1.5 text-xs text-destructive">{errors.name.message}</p>
               )}
             </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="email">Email</Label>
-              <Input
+            <div>
+              <FloatingInput
                 id="email"
                 type="email"
+                label="Email"
+                aria-invalid={!!errors.email}
                 {...register("email")}
-                placeholder="you@example.com"
               />
               {errors.email && (
-                <p className="text-xs text-destructive">{errors.email.message}</p>
+                <p className="mt-1.5 text-xs text-destructive">{errors.email.message}</p>
               )}
             </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="message">Message</Label>
-              <Textarea
+            <div>
+              <FloatingTextarea
                 id="message"
                 rows={4}
+                label="What are you looking to build?"
+                aria-invalid={!!errors.message}
                 {...register("message")}
-                placeholder="What are you looking to build?"
               />
               {errors.message && (
-                <p className="text-xs text-destructive">
+                <p className="mt-1.5 text-xs text-destructive">
                   {errors.message.message}
                 </p>
               )}
             </div>
 
-            <Button type="submit" disabled={isSubmitting} className="w-full gap-2">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full gap-2 rounded-full shadow-lg shadow-purple-500/20 transition-shadow hover:shadow-purple-500/30"
+            >
               {isSubmitting ? (
                 <Loader2 className="size-4 animate-spin" />
               ) : (

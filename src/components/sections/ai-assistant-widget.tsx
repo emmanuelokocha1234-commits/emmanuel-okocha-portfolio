@@ -83,7 +83,7 @@ export function AiAssistantWidget() {
           >
             <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
               <div className="flex items-center gap-2 text-sm font-medium">
-                <Sparkles className="size-4 text-indigo-400" />
+                <Sparkles className="size-4 text-emerald-400" />
                 Ask about {profile.firstName}
               </div>
               <Button
@@ -106,7 +106,7 @@ export function AiAssistantWidget() {
                   key={i}
                   className={`max-w-[85%] whitespace-pre-line rounded-xl px-3 py-2 text-sm ${
                     m.role === "user"
-                      ? "ml-auto bg-indigo-500 text-white"
+                      ? "ml-auto bg-emerald-500 text-white"
                       : "bg-muted text-foreground"
                   }`}
                 >
@@ -146,7 +146,7 @@ export function AiAssistantWidget() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask a question…"
-                className="flex-1 rounded-full border border-border bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-indigo-400"
+                className="flex-1 rounded-full border border-border bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-400"
                 maxLength={500}
               />
               <Button

@@ -17,7 +17,7 @@ export default async function ProjectsPage() {
     <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
       <ScrollReveal>
         <div className="mb-14 text-center">
-          <p className="text-sm font-medium text-indigo-400">All Projects</p>
+          <p className="text-sm font-medium text-emerald-400">All Projects</p>
           <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
             Everything I&apos;ve built
           </h1>

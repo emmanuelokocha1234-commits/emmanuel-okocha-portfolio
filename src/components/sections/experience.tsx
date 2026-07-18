@@ -16,7 +16,7 @@ export function Experience() {
     >
       <ScrollReveal>
         <div className="mb-14 text-center">
-          <p className="text-sm font-medium text-indigo-400">Journey</p>
+          <p className="text-sm font-medium text-purple-400">Journey</p>
           <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
             Experience &amp; Research
           </h2>
@@ -30,7 +30,7 @@ export function Experience() {
             <ScrollReveal key={entry.title} delay={i * 0.1} direction="right">
               <div className="relative">
                 <span className="glass-panel absolute -left-[2.55rem] flex size-8 items-center justify-center rounded-full">
-                  <Icon className="size-4 text-indigo-400" />
+                  <Icon className="size-4 text-purple-400" />
                 </span>
                 <div className="glass-card p-5">
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -39,7 +39,7 @@ export function Experience() {
                       {entry.period}
                     </span>
                   </div>
-                  <p className="mt-0.5 text-sm text-indigo-400/90">
+                  <p className="mt-0.5 text-sm text-purple-400/90">
                     {entry.organization}
                   </p>
                   <p className="mt-2 text-sm text-muted-foreground">
@@ -52,7 +52,7 @@ export function Experience() {
                           key={bullet}
                           className="flex gap-2 text-sm text-muted-foreground"
                         >
-                          <span className="text-indigo-400">—</span>
+                          <span className="text-purple-400">—</span>
                           {bullet}
                         </li>
                       ))}

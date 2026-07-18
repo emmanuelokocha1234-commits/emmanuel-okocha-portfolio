@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Menu, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,17 +15,19 @@ import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { profile } from "@/lib/data/profile";
 
 const navLinks = [
-  { href: "/#about", label: "About" },
-  { href: "/#skills", label: "Skills" },
-  { href: "/#projects", label: "Projects" },
-  { href: "/#experience", label: "Experience" },
-  { href: "/#services", label: "Services" },
-  { href: "/blog", label: "Blog" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/#about", label: "About", id: "about" },
+  { href: "/#skills", label: "Skills", id: "skills" },
+  { href: "/#projects", label: "Projects", id: "projects" },
+  { href: "/#experience", label: "Experience", id: "experience" },
+  { href: "/#services", label: "Services", id: "services" },
+  { href: "/blog", label: "Blog", id: "blog" },
+  { href: "/#contact", label: "Contact", id: "contact" },
 ];
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState<string | null>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -33,32 +36,62 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const sections = navLinks
+      .map((link) => document.getElementById(link.id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (sections.length === 0) return;
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActive(visible.target.id);
+      },
+      { rootMargin: "-40% 0px -50% 0px", threshold: [0, 0.25, 0.5, 1] }
+    );
+
+    sections.forEach((section) => observerRef.current?.observe(section));
+    return () => observerRef.current?.disconnect();
+  }, []);
+
   return (
-    <header
-      className={`sticky top-0 z-50 w-full transition-colors duration-300 ${
-        scrolled ? "glass-panel" : "border-b border-transparent"
-      }`}
-    >
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="fixed inset-x-0 top-4 z-50 px-4">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
         <Link
           href="/"
-          className="text-sm font-semibold tracking-tight"
+          className="glass-panel rounded-full px-4 py-2.5 text-sm font-semibold tracking-tight"
           aria-label={`${profile.name} — home`}
         >
-          Emmanuel<span className="gradient-text">.dev</span>
+          Emmanuel<span className="gradient-text-emerald">.dev</span>
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
+        <nav
+          className={`glass-panel hidden items-center gap-1 rounded-full px-2 transition-all duration-300 md:flex ${
+            scrolled ? "py-1.5" : "py-2"
+          }`}
+        >
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="relative rounded-full px-4 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
-              {link.label}
+              {active === link.id && (
+                <motion.span
+                  layoutId="nav-active-pill"
+                  className="absolute inset-0 -z-10 rounded-full bg-foreground/10"
+                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                />
+              )}
+              <span className={active === link.id ? "text-foreground" : ""}>
+                {link.label}
+              </span>
             </Link>
           ))}
-        </div>
+        </nav>
 
         <div className="hidden items-center gap-2 md:flex">
           <ThemeToggle />
@@ -66,14 +99,14 @@ export function Navbar() {
             render={<a href={profile.resumeUrl} download />}
             nativeButton={false}
             size="sm"
-            className="gap-1.5 rounded-full"
+            className="gap-1.5 rounded-full shadow-lg shadow-emerald-500/10"
           >
             <Download className="size-3.5" />
             Resume
           </Button>
         </div>
 
-        <div className="flex items-center gap-1 md:hidden">
+        <div className="glass-panel flex items-center gap-1 rounded-full p-1 md:hidden">
           <ThemeToggle />
           <Sheet>
             <SheetTrigger
@@ -109,7 +142,7 @@ export function Navbar() {
             </SheetContent>
           </Sheet>
         </div>
-      </nav>
+      </div>
     </header>
   );
 }

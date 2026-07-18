@@ -1,6 +1,7 @@
 import { Bot, Code2, LayoutTemplate, Plug, Sparkles, Terminal } from "lucide-react";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { SpotlightCard } from "@/components/ui/spotlight-card";
+import { TiltCard } from "@/components/shared/tilt-card";
 import { services, type Service } from "@/lib/data/services";
 
 const icons: Record<Service["icon"], typeof Code2> = {
@@ -20,7 +21,7 @@ export function Services() {
     >
       <ScrollReveal>
         <div className="mb-14 text-center">
-          <p className="text-sm font-medium text-indigo-400">Services</p>
+          <p className="text-sm font-medium text-emerald-400">Services</p>
           <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
             How I can help
           </h2>
@@ -35,18 +36,20 @@ export function Services() {
           const Icon = icons[service.icon];
           return (
             <ScrollReveal key={service.title} delay={i * 0.06}>
-              <SpotlightCard
-                spotlightColor="rgba(99,102,241,0.16)"
-                className="glass-card h-full p-6"
-              >
-                <div className="mb-4 flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/20 to-cyan-500/20">
-                  <Icon className="size-5 text-indigo-400" />
-                </div>
-                <h3 className="font-semibold">{service.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {service.description}
-                </p>
-              </SpotlightCard>
+              <TiltCard className="h-full">
+                <SpotlightCard
+                  spotlightColor="rgba(16,185,129,0.16)"
+                  className="glass-card h-full p-6"
+                >
+                  <div className="mb-4 flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20">
+                    <Icon className="size-5 text-emerald-400" />
+                  </div>
+                  <h3 className="font-semibold">{service.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {service.description}
+                  </p>
+                </SpotlightCard>
+              </TiltCard>
             </ScrollReveal>
           );
         })}

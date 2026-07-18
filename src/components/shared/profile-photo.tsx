@@ -11,7 +11,7 @@ export function ProfilePhoto({
 }) {
   return (
     <div
-      className={`${className} relative overflow-hidden rounded-full ring-2 ring-indigo-400/40 shadow-lg shadow-indigo-500/20`}
+      className={`${className} relative overflow-hidden rounded-full ring-2 ring-emerald-400/40 shadow-lg shadow-emerald-500/20`}
     >
       <Image
         src="/profile.jpg"

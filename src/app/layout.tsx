@@ -5,6 +5,9 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/shared/navbar";
 import { Footer } from "@/components/shared/footer";
 import { CursorGlow } from "@/components/shared/cursor-glow";
+import { AuroraBackground } from "@/components/shared/aurora-background";
+import { ScrollProgress } from "@/components/shared/scroll-progress";
+import { PageLoader } from "@/components/shared/page-loader";
 import { AiAssistantWidget } from "@/components/sections/ai-assistant-widget";
 import { profile } from "@/lib/data/profile";
 
@@ -103,6 +106,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <PageLoader />
+          <ScrollProgress />
+          <AuroraBackground />
+          <div aria-hidden className="noise-overlay" />
           <CursorGlow />
           <Navbar />
           <main className="relative z-10 flex-1">{children}</main>
